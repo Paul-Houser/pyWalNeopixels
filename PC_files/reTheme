@@ -1,4 +1,6 @@
 #!/bin/bash
+# change this to wherever you have your wallpapers saved.
+# this needs to be changed to work in whatever cwd is, but I suck at bash scripting and don't have time for this right now.
 
 FILE_DIRECTORY="/home/paul/Pictures/Wallpapers/$1"
 echo $FILE_DIRECTORY

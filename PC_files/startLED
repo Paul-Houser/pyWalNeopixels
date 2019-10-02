@@ -1,9 +1,0 @@
-#!/bin/bash
-# Start raspi LED python program with correct colors
-
-# Replace all occurrences'pi@192.168.0.25' with the address of the pi you are connecting to.
-ssh pi@192.168.0.25 "sudo killall python3"
-
-scp ~/.cache/wal/colors.json pi@192.168.0.25:/home/pi/Documents/GitHub/pyWalNeopixels/colors.json
-
-ssh pi@192.168.0.25 "sudo python3 /home/pi/Documents/GitHub/pyWalNeopixels/raspi_files/cycleColors.py" &

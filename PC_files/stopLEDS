@@ -1,6 +1,7 @@
 #!/bin/bash
 # turn off raspi led strip
+FILE_DIR="/home/pi/Neopixel/clearPixels.py"
 
 ssh pi@192.168.0.25 "sudo killall python3"
 
-ssh pi@192.168.0.25 "sudo python3 ~/Neopixel/clearPixels.py"
+ssh pi@192.168.0.25 "sudo python3 $FILE_DIR"
