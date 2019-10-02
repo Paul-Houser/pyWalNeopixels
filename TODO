@@ -1,0 +1,4 @@
+TODO:
+1) Users shouldn't have to have an up-to-date repo on both the pi and PC. using scp copy all files over to the pi when run?
+2) Automate installation of circuitPython, rpi_ws281x, and adafruit-circuitpython-neopixel on the pi
+3) reTheme should be able to address images in any directory, not just a hard coded directory
