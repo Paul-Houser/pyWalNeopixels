@@ -52,8 +52,12 @@ def colorsList():
     for i in range(16):
         new_color_name = 'color' + str(i)
         new_RGB = getColor(new_color_name)
+
+        # this if statement is here because some colors that pywal generates are so dark/dim that they just look like crap on the LED's. 
+        # comment out this if statement if you want your LEDs to faithfully try to recreate any color, including black.
         if (new_RGB[0] + new_RGB[1] + new_RGB[2]) >= 255:
             colors.append(new_RGB)
+            
     return colors
 
 
@@ -66,6 +70,7 @@ def cycleColors(colors, curr_RGB = (0, 0, 0)):
 
 if __name__ == "__main__":
     colors = colorsList()
+    
     if len(colors) <= 0:
         print("No colors were bright enough for the LED's to properly display")
         exit(1)

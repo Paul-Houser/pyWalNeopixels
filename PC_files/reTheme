@@ -1,0 +1,6 @@
+#!/bin/bash
+
+FILE_DIRECTORY="/home/paul/Pictures/Wallpapers/$1"
+echo $FILE_DIRECTORY
+wal -i $FILE_DIRECTORY
+startLED
