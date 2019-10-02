@@ -6,7 +6,7 @@ from getColor import get_hex_code
 PIXEL_PIN = board.D18
 NUM_PIXELS = 43
 ORDER = neopixel.GRB
-FILEPATH = '/home/pi/Neopixel/colors.json'
+FILEPATH = '/home/pi/Documents/GitHub/pyWalNeopixels/colors.json'
 
 pixels = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.7, auto_write=False, pixel_order=ORDER)
 
