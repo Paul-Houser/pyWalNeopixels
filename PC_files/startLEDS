@@ -1,12 +1,31 @@
 #!/bin/bash
-# Start raspi LED python program with correct colors
-FILE_DIRECTORY_PC="$HOME/.cache/wal/colors.json"
-FILE_DIRECTORY_PI="/home/pi/Documents/GitHub/pyWalNeopixels/colors.json"
-CYCLECOLORS_DIR="/home/pi/Documents/GitHub/pyWalNeopixels/raspi_files/cycleColors.py"
+# copy python files and colors from wal to raspi, and start leds.
+COLORS_DIR="$HOME/.cache/wal/colors.json"
+LOCAL_DIR="$HOME/Documents/GitHub/pyWalNeopixels/PC_files"
+PKG_DIR="$HOME/Documents/GitHub/pyWalNeopixels"
+DEST_DIR="/home/pi/.LEDS"
+USER_IP=pi@192.168.0.25
 
-# Replace all occurrences'pi@192.168.0.25' with the address of the pi you are connecting to.
-ssh pi@192.168.0.25 "sudo killall python3"
+echo making destination directory...
+ssh $USER_IP "mkdir $DEST_DIR"
 
-scp $FILE_DIRECTORY_PC pi@192.168.0.25:$FILE_DIRECTORY_PI
+echo copying colors.json...
+cp $COLORS_DIR $LOCAL_DIR
 
-ssh pi@192.168.0.25 "sudo python3 $CYCLECOLORS_DIR" &
+echo changing directory...
+cd $PKG_DIR
+
+echo compressing files to be sent to raspi...
+tar -czvf $PKG_DIR/pkg.tar.gz raspi_files 
+
+echo stoping old python processes...
+ssh $USER_IP "sudo killall python3"
+
+echo sending files to raspi...
+scp $PKG_DIR/pkg.tar.gz $USER_IP:$DEST_DIR
+
+echo unpacking files...
+ssh $USER_IP "tar -xzvf $DEST_DIR/pkg.tar.gz -C $DEST_DIR"
+
+echo starting LEDs...
+ssh $USER_IP "sudo python3 $DEST_DIR/raspi_files/cycleColors.py" &
