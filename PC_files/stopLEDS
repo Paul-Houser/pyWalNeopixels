@@ -1,7 +1,24 @@
 #!/bin/bash
 # turn off raspi led strip
-FILE_DIR="/home/pi/Neopixel/clearPixels.py"
 
-ssh pi@192.168.0.25 "sudo killall python3"
+# Replace this with your cloned repo path, must end with /raspi_files/clearPixels.py
 
-ssh pi@192.168.0.25 "sudo python3 $FILE_DIR"
+STOP_DIR="$HOME/Documents/GitHub/pyWalNeopixels/raspi_files/clearPixels.py"
+
+# Location for files to be copied to raspi. It can be whatever you'd like, as
+# the directory will be created when the script is run.
+DEST_DIR="/home/pi/.LEDS"
+
+# This is the user@ipaddr of your raspi.
+USER_IP=pi@192.168.0.25 
+
+echo stopping python programs...
+ssh $USER_IP "sudo killall python3"
+
+echo making destination directory...
+ssh $USER_IP "mkdir $DEST_DIR"
+
+scp $STOP_DIR $USER_IP:$DEST_DIR
+
+echo turning off LEDs...
+ssh $USER_IP "sudo python3 $DEST_DIR/clearPixels.py"
