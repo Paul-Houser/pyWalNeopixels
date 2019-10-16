@@ -1,9 +1,16 @@
 #!/bin/bash
 # turn off raspi led strip
-FILE_DIR="/home/pi/Neopixel/clearPixels.py"
+STOP_DIR="$HOME/Documents/GitHub/pyWalNeopixels/raspi_files/clearPixels.py"
+DEST_DIR="/home/pi/.LEDS"
+USER_IP=pi@192.168.0.25 
 
 echo stopping python programs...
-ssh pi@192.168.0.25 "sudo killall python3"
+ssh $USER_IP "sudo killall python3"
+
+echo making destination directory...
+ssh $USER_IP "mkdir $DEST_DIR"
+
+scp $STOP_DIR $USER_IP:$DEST_DIR
 
 echo turning off LEDs...
-ssh pi@192.168.0.25 "sudo python3 $FILE_DIR"
+ssh $USER_IP "sudo python3 $DEST_DIR/clearPixels.py"
