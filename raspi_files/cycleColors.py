@@ -1,12 +1,14 @@
 import board
 import neopixel
 import time
+import os
 from getColor import get_hex_code
 
 PIXEL_PIN = board.D18
 NUM_PIXELS = 43
 ORDER = neopixel.GRB
-FILEPATH = '/home/pi/Documents/GitHub/pyWalNeopixels/colors.json'
+CWD = os.getcwd()
+FILEPATH = CWD + '/.LEDS/raspi_files/colors.json'
 
 pixels = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.7, auto_write=False, pixel_order=ORDER)
 

@@ -5,37 +5,38 @@
 # yours is different, put the path here.
 COLORS_DIR="$HOME/.cache/wal/colors.json"
 
-# Replace this with your cloned repo path, must end with /PC_files
-LOCAL_DIR="$HOME/Documents/GitHub/pyWalNeopixels/PC_files"
-
-# This is the location for the pkg.tar.gz to be stored. Replace this with the
-# path of your cloned repo.
-PKG_DIR="$HOME/Documents/GitHub/pyWalNeopixels"
-
-# Location for files to be copied to raspi. This can be whatever you'd like, as
-# the directory will be created when the script is run.
-DEST_DIR="/home/pi/.LEDS"
+# Path to your cloned pyWalNeopixels repo.
+REPO_DIR="$HOME/Documents/GitHub/pyWalNeopixels"
 
 # This is the user@ipaddr of your raspi.
 USER_IP=pi@192.168.0.25
+
+# Directory to PC_files
+PC_files="$REPO_DIR/PC_files"
+
+# Location for files to be copied to raspi. This can be whatever you'd like, as
+# the directory will be created when the script is run. NOTE: if you change
+# this, you must also adjust the corresponding file path in
+# raspi_files/cycleColors.py
+DEST_DIR="/home/pi/.LEDS"
 
 echo making destination directory...
 ssh $USER_IP "mkdir $DEST_DIR"
 
 echo copying colors.json...
-cp $COLORS_DIR $LOCAL_DIR
+cp $COLORS_DIR $REPO_DIR/raspi_files
 
 echo changing directory...
-cd $PKG_DIR
+cd $REPO_DIR
 
 echo compressing files to be sent to raspi...
-tar -czvf $PKG_DIR/pkg.tar.gz raspi_files 
+tar -czvf $REPO_DIR/pkg.tar.gz raspi_files 
 
 echo stoping old python processes...
 ssh $USER_IP "sudo killall python3"
 
 echo sending files to raspi...
-scp $PKG_DIR/pkg.tar.gz $USER_IP:$DEST_DIR
+scp $REPO_DIR/pkg.tar.gz $USER_IP:$DEST_DIR
 
 echo unpacking files...
 ssh $USER_IP "tar -xzvf $DEST_DIR/pkg.tar.gz -C $DEST_DIR"
