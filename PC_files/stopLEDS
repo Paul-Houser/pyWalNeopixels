@@ -4,15 +4,18 @@
 # Cloned repo directory.
 REPO_DIR="$HOME/Documents/GitHub/pyWalNeopixels"
 
+USER="pi"
+IP=192.168.0.25
+
 # This is the user@ipaddr of your raspi.
-USER_IP=pi@192.168.0.25
+USER_IP=$USER@$IP
 
 # Replace this with your cloned repo path, must end with /raspi_files/clearPixels.py
 STOP_DIR="$REPO_DIR/raspi_files/clearPixels.py"
 
 # Location for files to be copied to raspi. It can be whatever you'd like, as
 # the directory will be created when the script is run.
-DEST_DIR="/home/pi/.LEDS"
+DEST_DIR="/home/$USER/.LEDS"
 
 echo stopping python programs...
 ssh $USER_IP "sudo killall python3"

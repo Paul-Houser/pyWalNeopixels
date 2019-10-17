@@ -8,8 +8,11 @@ COLORS_DIR="$HOME/.cache/wal/colors.json"
 # Path to your cloned pyWalNeopixels repo.
 REPO_DIR="$HOME/Documents/GitHub/pyWalNeopixels"
 
+USER="pi"
+IP=192.168.0.25
+
 # This is the user@ipaddr of your raspi.
-USER_IP=pi@192.168.0.25
+USER_IP=$USER@$IP
 
 # Directory to PC_files
 PC_files="$REPO_DIR/PC_files"
@@ -18,7 +21,7 @@ PC_files="$REPO_DIR/PC_files"
 # the directory will be created when the script is run. NOTE: if you change
 # this, you must also adjust the corresponding file path in
 # raspi_files/cycleColors.py
-DEST_DIR="/home/pi/.LEDS"
+DEST_DIR="/home/$USER/.LEDS"
 
 echo making destination directory...
 ssh $USER_IP "mkdir $DEST_DIR"
