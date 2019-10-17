@@ -27,3 +27,6 @@ scp $STOP_DIR $USER_IP:$DEST_DIR
 
 echo turning off LEDs...
 ssh $USER_IP "sudo python3 $DEST_DIR/clearPixels.py"
+
+echo cleaning up...
+ssh $USER_IP "sudo rm -rf $DEST_DIR"

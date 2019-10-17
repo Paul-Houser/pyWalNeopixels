@@ -46,3 +46,7 @@ ssh $USER_IP "tar -xzvf $DEST_DIR/pkg.tar.gz -C $DEST_DIR"
 
 echo starting LEDs...
 ssh $USER_IP "sudo python3 $DEST_DIR/raspi_files/cycleColors.py" &
+
+echo cleaning up...
+rm $REPO_DIR/raspi_files/colors.json
+rm $REPO_DIR/pkg.tar.gz
