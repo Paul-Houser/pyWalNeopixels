@@ -23,7 +23,7 @@ ssh $USER_IP "sudo killall python3"
 ssh $USER_IP "test -e $DEST_DIR/raspi_files/clearPixels.py"
 if [ $? -eq 0 ]; then
   echo raspi files exist, clearing LEDs...
-  ssh $USER_IP "sudo python3 $DEST_DIR/raspi_files/clearPixels.py"
+  ssh $USER_IP "sudo python3 $DEST_DIR/raspi_files/clearPixels.py" &
 else
   echo files did not exist on raspi, sending with scp...
   echo making destination directory...
@@ -32,7 +32,7 @@ else
   scp $STOP_DIR $USER_IP:$DEST_DIR/raspi_files
 
   echo turning off LEDs...
-  ssh $USER_IP "sudo python3 $DEST_DIR/raspi_files/clearPixels.py"
+  ssh $USER_IP "sudo python3 $DEST_DIR/raspi_files/clearPixels.py" &
 fi
 
 # echo cleaning up...
