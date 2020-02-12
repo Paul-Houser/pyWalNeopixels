@@ -15,7 +15,7 @@ pixels = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, brightness=0.7, auto_write=Fal
 
 def getColor(colorName):
     hexcode = get_hex_code(colorName, FILEPATH)
-    
+
     # hexcode is in the form #5E4E58, so converting to rgb starts at 1 instead of 0 to remove the hashtag.
     rgb = tuple(int(hexcode[i:i+2], 16) for i in (1, 3, 5))
     return rgb
@@ -59,20 +59,29 @@ def colorsList():
         # comment out this if statement if you want your LEDs to faithfully try to recreate any color, including black.
         if (new_RGB[0] + new_RGB[1] + new_RGB[2]) >= 255:
             colors.append(new_RGB)
-            
+
     return colors
 
-
 def cycleColors(colors, curr_RGB = (0, 0, 0)):
+    for i in range(16):
+        color_name = 'color' + str(i)
+        new_RGB = getColor(color_name)
+        if (new_RGB[0] + new_RGB[1] + new_RGB[2]) >= 255:
+            fadeToColor(curr_RGB, new_RGB)
+            curr_RGB = new_RGB
+            time.sleep(15)
+
+
+'''def cycleColors(colors, curr_RGB = (0, 0, 0)):
     for color in colors:
         fadeToColor(curr_RGB, color)
         curr_RGB = color
         time.sleep(15)
-
+'''
 
 if __name__ == "__main__":
     colors = colorsList()
-    
+
     if len(colors) <= 0:
         print("No colors were bright enough for the LED's to properly display")
         exit(1)
