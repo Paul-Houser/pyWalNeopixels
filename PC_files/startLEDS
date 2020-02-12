@@ -26,21 +26,11 @@ DEST_DIR="/home/$USER/.LEDS"
 ssh $USER_IP "test -e $DEST_DIR/raspi_files/cycleColors.py"
 if [ $? -eq 0 ]; then
   echo raspi files exist, sending colors...
-  scp $COLORS_DIR $USER_IP:$DEST_DIR/raspi_files
   
-  echo stopping other python processes...
-  ssh $USER_IP "sudo killall python3"
-
-  echo starting LEDs...
-  ssh $USER_IP "sudo python3 $DEST_DIR/raspi_files/cycleColors.py" &
-
 else
   echo files did not exist on raspi, sending with scp...
   echo making destination directory...
   ssh $USER_IP "mkdir $DEST_DIR"
-
-  echo copying colors.json...
-  cp $COLORS_DIR $REPO_DIR/raspi_files
 
   echo changing directory...
   cd $REPO_DIR
@@ -48,19 +38,18 @@ else
   echo compressing files to be sent to raspi...
   tar -czvf $REPO_DIR/pkg.tar.gz raspi_files 
 
-  echo stoping old python processes...
-  ssh $USER_IP "sudo killall python3"
-
   echo sending files to raspi...
   scp $REPO_DIR/pkg.tar.gz $USER_IP:$DEST_DIR
 
   echo unpacking files...
   ssh $USER_IP "tar -xzvf $DEST_DIR/pkg.tar.gz -C $DEST_DIR"
-
-  echo starting LEDs...
-  ssh $USER_IP "sudo python3 $DEST_DIR/raspi_files/cycleColors.py" &
-
-  echo cleaning up...
-  rm $REPO_DIR/raspi_files/colors.json
-  rm $REPO_DIR/pkg.tar.gz
 fi
+
+echo killing old cycleColors instances...
+ssh $USER_IP "sudo kill \$(ps aux | grep cycleColors.py | awk '{print \$2}' | head -1)"
+
+scp $COLORS_DIR $USER_IP:$DEST_DIR/raspi_files
+
+echo starting LEDs...
+ssh $USER_IP "sudo python3 $DEST_DIR/raspi_files/cycleColors.py" &
+

@@ -18,7 +18,7 @@ STOP_DIR="$REPO_DIR/raspi_files/clearPixels.py"
 DEST_DIR="/home/$USER/.LEDS"
 
 echo stopping python programs...
-ssh $USER_IP "sudo killall python3"
+ssh $USER_IP "sudo kill \$(ps aux | grep cycleColors.py | awk '{print \$2}' | head -1)"
 
 ssh $USER_IP "test -e $DEST_DIR/raspi_files/clearPixels.py"
 if [ $? -eq 0 ]; then
@@ -35,5 +35,3 @@ else
   ssh $USER_IP "sudo python3 $DEST_DIR/raspi_files/clearPixels.py" &
 fi
 
-# echo cleaning up...
-# ssh $USER_IP "sudo rm -rf $DEST_DIR"
