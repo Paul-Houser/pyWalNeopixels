@@ -18,7 +18,7 @@ STOP_DIR="$REPO_DIR/raspi_files/clearPixels.py"
 DEST_DIR="/home/$USER/.LEDS"
 
 echo stopping python programs...
-ssh $USER_IP "sudo kill \$(ps aux | grep cycleColors.py | awk '{print \$2}' | head -1)"
+ssh $USER_IP "sudo kill \$(ps aux | grep "[c]ycleColors.py" | awk '{print \$2}' | head -1)"
 
 ssh $USER_IP "test -e $DEST_DIR/raspi_files/clearPixels.py"
 if [ $? -eq 0 ]; then

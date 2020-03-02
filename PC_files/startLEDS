@@ -46,7 +46,7 @@ else
 fi
 
 echo killing old cycleColors instances...
-ssh $USER_IP "sudo kill \$(ps aux | grep cycleColors.py | awk '{print \$2}' | head -1)"
+ssh $USER_IP "sudo kill \$(ps aux | grep "[c]ycleColors.py" | awk '{print \$2}' | head -1)"
 
 scp $COLORS_DIR $USER_IP:$DEST_DIR/raspi_files
 
